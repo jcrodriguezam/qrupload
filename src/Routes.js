@@ -60,6 +60,7 @@ const Routes = () => {
                     <Route
                         path={[
                             // '/register',
+                            '/',
                             '/application/register',
                             // '/forgot-password',
                             '/application/forgot-password',
@@ -254,6 +255,8 @@ const Routes = () => {
                                     <Route path="/sample-page" component={Price} />
 
                                     <Route path="/dashboard/settings" component={Settings} />
+                                    <Route path="/" component={DashboardDefault} />
+
                                 </NavMotion>
                             </Switch>
                         </MainLayout>

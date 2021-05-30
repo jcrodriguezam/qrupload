@@ -1,5 +1,5 @@
 export default {
-    basename: '/sinapsis', // only at build time to set, like ///able-pro/react/default
+    // basename: '/sinapsis', // only at build time to set, like ///able-pro/react/default
     rtlLayout: false,
     theme: 'dark',
     i18n: 'es',
