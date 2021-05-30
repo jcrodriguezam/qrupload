@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles, Grid } from '@material-ui/core';
-import { StylesProvider, useTheme } from '@material-ui/core/styles';
+import { useTheme } from '@material-ui/core/styles';
 import { useSelector, useDispatch } from 'react-redux';
 import * as actionTypes from '../../store/actions';
 
