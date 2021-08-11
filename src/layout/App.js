@@ -7,7 +7,7 @@ import { ThemeProvider } from '@material-ui/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 import theme from './../themes';
-import Routes from '../Routes';
+import Routes from '../routes/Routes';
 import NavigationScroll from './NavigationScroll';
 
 import { create } from 'jss';

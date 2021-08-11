@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Breadcrumb from './../../../component/Breadcrumb';
+import Breadcrumb from './../../../components/Breadcrumb';
 
 import { Typography, Grid } from '@material-ui/core';
 import { Link } from 'react-router-dom';

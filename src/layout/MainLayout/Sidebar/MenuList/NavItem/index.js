@@ -6,7 +6,7 @@ import { Avatar, ListItem, ListItemIcon, ListItemText, Typography } from '@mater
 
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
-import Chip from '../../../../../component/Chip';
+import Chip from '../../../../../components/Chip';
 import * as actionTypes from '../../../../../store/actions';
 
 const useStyles = makeStyles((theme) => ({

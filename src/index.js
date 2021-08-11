@@ -10,8 +10,16 @@ import reducer from './store/reducer';
 import config from './config';
 import './assets/scss/style.scss';
 import * as serviceWorker from './serviceWorker';
+import firebase from "firebase";
 
-const store = createStore(reducer);
+
+firebase.initializeApp(config.firebase);
+
+const store = createStore(
+    reducer, /* preloadedState, */
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  );
+ 
 
 ReactDOM.render(
     <Provider store={store}>

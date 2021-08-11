@@ -3,7 +3,7 @@ import { Card, CardHeader, CardContent, Divider, Grid } from '@material-ui/core'
 import { Link } from 'react-router-dom';
 import MuiTypography from '@material-ui/core/Typography';
 
-import Breadcrumb from './../../../component/Breadcrumb';
+import Breadcrumb from './../../../components/Breadcrumb';
 import { gridSpacing } from '../../../store/constant';
 
 const Typography = (props) => {

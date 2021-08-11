@@ -2,27 +2,27 @@ import React, { lazy, Suspense } from 'react';
 import { Switch, Route, Redirect, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 
-import Loader from './component/Loader/Loader';
-import NavMotion from './layout/NavMotion';
-import MainLayout from './layout/MainLayout';
-import MinimalLayout from './layout/MinimalLayout';
+import Loader from '../components/Loader/Loader';
+import NavMotion from '../layout/NavMotion';
+import MainLayout from '../layout/MainLayout';
+import MinimalLayout from '../layout/MinimalLayout';
 
-const AuthLogin = lazy(() => import('./views/Login'));
+const AuthLogin = lazy(() => import('../pages/Login'));
 
-const Price = lazy(() => import('./views/Application/Price/Price2'));
+const Price = lazy(() => import('../pages/Application/Price/Price2'));
 
-const DashboardDefault = lazy(() => import('./views/Dashboard/Default'));
+const DashboardDefault = lazy(() => import('../pages/Dashboard/Default'));
 
-const RtlLayout = lazy(() => import('./views/RtlLayout'));
+const RtlLayout = lazy(() => import('../pages/RtlLayout'));
 
-const TableBasic = lazy(() => import('./views/Tables/TableBasic'));
+const TableBasic = lazy(() => import('../pages/Tables/TableBasic'));
 
-const Settings = lazy(() => import('./views/Settings'));
+const Settings = lazy(() => import('../pages/Settings'));
 
-const UtilsIcons = lazy(() => import('./views/Utils/Icons'));
-const UtilsTypography = lazy(() => import('./views/Utils/Typography'));
+const UtilsIcons = lazy(() => import('../pages/Utils/Icons'));
+const UtilsTypography = lazy(() => import('../pages/Utils/Typography'));
 
-const MultiLanguage = lazy(() => import('./views/MultiLanguage'));
+const MultiLanguage = lazy(() => import('../pages/MultiLanguage'));
 
 const Routes = () => {
     const location = useLocation();
@@ -31,9 +31,9 @@ const Routes = () => {
         <AnimatePresence>
             <Suspense fallback={<Loader />}>
                 <Switch>
-                    <Redirect exact from="/" to="/dashboard/default" />
+                    <Redirect exact from="/" to="/login" />
                     <Route path={[
-                        '/login',
+                        "/login",
                         "/register",
                         "/forgot-password",
                         // "/application/login",
@@ -69,7 +69,7 @@ const Routes = () => {
                             '/pages/error/error2',
                             '/pages/comingsoon',
 
-                            '/dashboard/default',
+                            
                             '/widget/statistic',
                             '/widget/data',
                             '/widget/chart',
@@ -152,6 +152,7 @@ const Routes = () => {
                             '/utils/util-typography',
                             '/sample-page',
                             '/multi-language',
+                            '/dashboard',
                             '/dashboard/settings',
                         ]}
                     >
@@ -167,7 +168,6 @@ const Routes = () => {
                                     <Route path="/pages/error/error2" component={Price} />
                                     <Route path="/pages/comingsoon" component={Price} />
 
-                                    <Route path="/dashboard/default" component={DashboardDefault} />
                                     <Route path="/utils/util-typography" component={UtilsTypography} />
                                     <Route path="/multi-language" component={MultiLanguage} />
                                     <Route path="/rtl" component={RtlLayout} />
@@ -254,8 +254,10 @@ const Routes = () => {
 
                                     <Route path="/sample-page" component={Price} />
 
+                                    <Route exact path="/dashboard" component={DashboardDefault} />
                                     <Route path="/dashboard/settings" component={Settings} />
-                                    <Route path="/" component={DashboardDefault} />
+
+                                    <Route path="/" exact component={DashboardDefault} />
 
                                 </NavMotion>
                             </Switch>

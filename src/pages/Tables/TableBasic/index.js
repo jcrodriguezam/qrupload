@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Card, CardHeader, Divider, Grid, Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
-import Breadcrumb from './../../../component/Breadcrumb';
+import Breadcrumb from './../../../components/Breadcrumb';
 import { gridSpacing } from '../../../store/constant';
 
 import Table from '@material-ui/core/Table';

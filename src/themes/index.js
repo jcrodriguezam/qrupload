@@ -100,6 +100,7 @@ export function theme(customization) {
             colorBlue: value.colorBlue,
             colorGreen: value.colorGreen,
             colorYellow: value.colorYellow,
+            colorGray: value.colorYellow,
         },
         typography: {
             fontFamily: `'Poppins', sans-serif`,

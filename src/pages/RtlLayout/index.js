@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 
 import { FormattedMessage } from 'react-intl';
 
-import Breadcrumb from './../../component/Breadcrumb';
+import Breadcrumb from './../../components/Breadcrumb';
 import { gridSpacing } from '../../store/constant';
 import * as actionTypes from '../../store/actions';
 

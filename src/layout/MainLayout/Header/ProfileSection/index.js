@@ -2,6 +2,7 @@ import React from 'react';
 
 import { makeStyles, Fade, Button, ClickAwayListener, Paper, Popper, List, ListItem, ListItemText, ListItemIcon, Avatar} from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import PersonTwoToneIcon from '@material-ui/icons/PersonTwoTone';
 import DraftsTwoToneIcon from '@material-ui/icons/DraftsTwoTone';
@@ -43,7 +44,8 @@ const useStyles = makeStyles((theme) => ({
 
 const ProfileSection = () => {
     const classes = useStyles();
-
+    const loggedUser = useSelector((state) => state.auth);
+console.log('loggedUser', loggedUser)
     const [selectedIndex, setSelectedIndex] = React.useState(1);
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef(null);
@@ -88,9 +90,10 @@ const ProfileSection = () => {
             >
                 {/* <AccountCircleTwoToneIcon className={classes.menuIcon} /> */}
                 <Avatar alt="Joseph William" src={User2} />
+                {/* <Avatar alt="Joseph William" src={loggedUser?.user.user.palette.photoURL || User2} /> */}
             </Button>
             <Popper
-                placement="bottom-end"
+                placement="bottom"
                 open={open}
                 anchorEl={anchorRef.current}
                 role={undefined}
@@ -103,7 +106,7 @@ const ProfileSection = () => {
                             offset: '0px, 10px',
                         },
                         preventOverflow: {
-                            padding: 0,
+                            padding: 30,
                         },
                     },
                 }}
