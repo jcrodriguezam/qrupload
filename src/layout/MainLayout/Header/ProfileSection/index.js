@@ -2,7 +2,8 @@ import React from 'react';
 
 import { makeStyles, Fade, Button, ClickAwayListener, Paper, Popper, List, ListItem, ListItemText, ListItemIcon, Avatar} from '@material-ui/core';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import userAvatar from '../../../../assets/images/users/1.png';
+import { useSelector, useDispatch } from 'react-redux';
 
 import PersonTwoToneIcon from '@material-ui/icons/PersonTwoTone';
 import DraftsTwoToneIcon from '@material-ui/icons/DraftsTwoTone';
@@ -11,8 +12,6 @@ import SettingsTwoToneIcon from '@material-ui/icons/SettingsTwoTone';
 // import AccountCircleTwoToneIcon from '@material-ui/icons/AccountCircleTwoTone';
 import MeetingRoomTwoToneIcon from '@material-ui/icons/MeetingRoomTwoTone';
 
-
-import User2 from './../../../../assets/images/users/avatar-2.jpg';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -43,9 +42,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ProfileSection = () => {
+    const dispatch = useDispatch();
+    const image = userAvatar;
     const classes = useStyles();
     const loggedUser = useSelector((state) => state.auth);
-console.log('loggedUser', loggedUser)
     const [selectedIndex, setSelectedIndex] = React.useState(1);
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef(null);
@@ -59,6 +59,10 @@ console.log('loggedUser', loggedUser)
 
     const handleToggle = () => {
         setOpen((prevOpen) => !prevOpen);
+    };
+
+    const handleLogOut = () => {
+        dispatch.auth.logOut();
     };
 
     const handleClose = (event) => {
@@ -89,8 +93,8 @@ console.log('loggedUser', loggedUser)
                 color="inherit"
             >
                 {/* <AccountCircleTwoToneIcon className={classes.menuIcon} /> */}
-                <Avatar alt="Joseph William" src={User2} />
-                {/* <Avatar alt="Joseph William" src={loggedUser?.user.user.palette.photoURL || User2} /> */}
+                {/* <Avatar alt={loggedUser?.user?.displayName} src={image} /> */}
+                <Avatar alt={loggedUser?.user?.displayName} src={loggedUser?.user?.photoURL || image} />
             </Button>
             <Popper
                 placement="bottom"
@@ -138,7 +142,7 @@ console.log('loggedUser', loggedUser)
                                         <ListItemIcon>
                                             <PersonTwoToneIcon />
                                         </ListItemIcon>
-                                        <ListItemText primary="Profile" />
+                                        <ListItemText primary="ProfileXXX" />
                                     </ListItem>
                                     <ListItem button selected={selectedIndex === 2} onClick={(event) => handleListItemClick(event, 2)}>
                                         <ListItemIcon>
@@ -156,7 +160,7 @@ console.log('loggedUser', loggedUser)
                                         <ListItemIcon>
                                             <MeetingRoomTwoToneIcon />
                                         </ListItemIcon>
-                                        <ListItemText primary="Logout" />
+                                        <ListItemText primary="Logout" onClick={() => handleLogOut()}/>
                                     </ListItem>
                                 </List>
                             </ClickAwayListener>

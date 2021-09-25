@@ -7,14 +7,13 @@ import { FormattedMessage } from 'react-intl';
 
 import Breadcrumb from './../../components/Breadcrumb';
 import { gridSpacing } from '../../store/constant';
-import * as actionTypes from '../../store/actions';
 
 const RtlLayout = () => {
     const dispatch = useDispatch();
 
     React.useEffect(() => {
-        dispatch({ type: actionTypes.THEME_LOCALE, locale: 'zh' });
-        dispatch({ type: actionTypes.THEME_RTL, rtlLayout: true });
+        dispatch.customization({locale: 'zh' });
+        dispatch.customization({ rtlLayout: true });
     }, [dispatch]);
 
     return (

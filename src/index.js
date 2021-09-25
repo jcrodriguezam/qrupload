@@ -1,31 +1,38 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
+import { Router } from 'react-router-dom';
+import { init } from '@rematch/core';
 
-import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-
 import App from './layout/App';
-import reducer from './store/reducer';
 import config from './config';
 import './assets/scss/style.scss';
 import * as serviceWorker from './serviceWorker';
 import firebase from "firebase";
+import history from './history';
+import createRematchPersist from '@rematch/persist';
+import './i18n';
 
+import * as models from './models';
 
 firebase.initializeApp(config.firebase);
 
-const store = createStore(
-    reducer, /* preloadedState, */
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-  );
- 
+const persistPlugin = createRematchPersist({
+    whitelist: ['customization'],
+    version: 1
+});
+
+const store = init({
+    models,
+    plugins: [persistPlugin],
+    redux: {}
+});
 
 ReactDOM.render(
     <Provider store={store}>
-        <BrowserRouter basename={config.basename}>
+        <Router basename={config.basename} history={history}>
             <App />
-        </BrowserRouter>
+        </Router>
     </Provider>,
     document.getElementById('root')
 );

@@ -31,6 +31,7 @@ function loadLocaleData(locale) {
 const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
 const App = () => {
     const customization = useSelector((state) => state.customization);
+    
     const [messages, setMessages] = useState();
 
     useEffect(() => {

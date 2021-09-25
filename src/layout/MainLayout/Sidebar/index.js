@@ -9,7 +9,7 @@ import MenuList from './MenuList';
 import logoLight from './../../../assets/images/logo.svg';
 import logoDark from './../../../assets/images/logo-dark.svg';
 
-import { drawerWidth } from './../../../store/constant';
+import { drawerWidth } from '../../../store/constant';
 
 const useStyles = makeStyles((theme) => ({
     drawer: {

@@ -7,7 +7,6 @@ import { Avatar, ListItem, ListItemIcon, ListItemText, Typography } from '@mater
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
 import Chip from '../../../../../components/Chip';
-import * as actionTypes from '../../../../../store/actions';
 
 const useStyles = makeStyles((theme) => ({
     listIcon: {
@@ -64,7 +63,7 @@ const NavItem = (props) => {
             className={level > 1 ? classes.listItemNoBack : classes.listItem}
             selected={customization.isOpen === item.id}
             component={Link}
-            onClick={() => dispatch({ type: actionTypes.MENU_OPEN, isOpen: item.id })}
+            onClick={() => dispatch.customization.MENU_OPEN({isOpen: item.id })}
             to={item.url}
             target={itemTarget}
             button

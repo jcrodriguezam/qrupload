@@ -18,7 +18,7 @@ import RevenuChartCardData from './chart/revenu-chart';
 import ReportCard from './ReportCard';
 import LatestorderCard from './LatestorderCard';
 
-import { gridSpacing } from './../../../store/constant';
+import { gridSpacing } from '../../../store/constant';
 
 const useStyles = makeStyles((theme) => ({
     arrowicon: {

@@ -2,7 +2,6 @@ import React from 'react';
 import { makeStyles, Grid } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import { useSelector, useDispatch } from 'react-redux';
-import * as actionTypes from '../../store/actions';
 
 import WbSunnyTwoToneIcon from '@material-ui/icons/WbSunnyTwoTone';
 import Brightness2TwoToneIcon from '@material-ui/icons/Brightness2TwoTone';
@@ -18,7 +17,7 @@ import PublicTwoToneIcon from '@material-ui/icons/PublicTwoTone';
 
 import ReportCard from './ReportCard';
 
-import { gridSpacing } from './../../store/constant';
+import { gridSpacing } from '../../store/constant';
 
 import { useMediaQuery, Box, TextField, MenuItem, Typography, Button, Card, CardContent } from '@material-ui/core';
 
@@ -156,28 +155,28 @@ const Settings = () => {
     }
 
     const handleSwitchTheme = () => {
-        dispatch({ type: actionTypes.THEME_SWITCH_SCHEME })
+        dispatch.customization.THEME_SWITCH_SCHEME();
         setCurrentTheme(!currentTheme)
     };
 
     const handleSwitchColor = (value) => {
-        dispatch({ type: actionTypes.THEME_SWITCH_COLOR, ...value });
+        dispatch.customization.THEME_SWITCH_COLOR(value);
         setSelectedColors(value);
     };
 
     const handleSearchBox = () => {
-        dispatch({ type: actionTypes.HIDE_SEARCH });
+        dispatch.customization.HIDE_SEARCH();
         setSearchBox(!searchBox)
     };
 
     const handleNotifications = () => {
-        dispatch({ type: actionTypes.HIDE_NOTIFICATIONS });
+        dispatch.customization.HIDE_NOTIFICATIONS();
         setNotifications(!notifications)
     };
 
     const handleChangeLanguage = (event) => {
         setCurrentLanguage(event.target.value);
-        dispatch({ type: actionTypes.THEME_LOCALE, locale: event.target.value });
+        dispatch.customization.THEME_LOCALE({locale: event.target.value});
     };
 
     React.useEffect(() => {

@@ -1,13 +1,19 @@
-import React, { lazy, Suspense } from 'react';
+import React, { 
+    lazy,
+    Suspense,
+    useEffect,
+} from 'react';
 import { Switch, Route, Redirect, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
+import { useSelector, useDispatch } from 'react-redux';
+
 
 import Loader from '../components/Loader/Loader';
 import NavMotion from '../layout/NavMotion';
 import MainLayout from '../layout/MainLayout';
 import MinimalLayout from '../layout/MinimalLayout';
 
-const AuthLogin = lazy(() => import('../pages/Login'));
+const Auth = lazy(() => import('../pages/Auth'));
 
 const Price = lazy(() => import('../pages/Application/Price/Price2'));
 
@@ -26,6 +32,14 @@ const MultiLanguage = lazy(() => import('../pages/MultiLanguage'));
 
 const Routes = () => {
     const location = useLocation();
+    const dispatch = useDispatch();
+    const auth = useSelector((state) => state.auth);
+
+    const { isAuthenticated } = auth
+    useEffect(() => {
+        dispatch.auth.isAuthenticated();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <AnimatePresence>
@@ -34,41 +48,42 @@ const Routes = () => {
                     <Redirect exact from="/" to="/login" />
                     <Route path={[
                         "/login",
+                        "/activate",
                         "/register",
                         "/forgot-password",
-                        // "/application/login",
-                        // "/application/register",
-                        // "/application/forgot-password",
-                        // "/pages/error/error1",
-                        // "/pages/error/error2",
                         ]}>
                         <MinimalLayout>
-                            <Switch location={location} key={location.pathname}>
-                                <NavMotion>
-                                    <Route path="/login" component={AuthLogin} />
-                                    <Route path="/application/login" component={AuthLogin} />
-                                    <Route path="/application/register" component={AuthLogin} />
-                                    <Route path="/register" component={AuthLogin} />
-                                    <Route path="/application/forgot-password" component={AuthLogin} />
-                                    <Route path="/forgot-password" component={AuthLogin} />
-                                    <Route path="/pages/error/error1" component={AuthLogin} />
-                                    <Route path="/pages/error/error2" component={AuthLogin} />
-                                </NavMotion>
-                            </Switch>
+                            <>
+                            {isAuthenticated ? (
+                                <Redirect exact from="/" to="/dashboard" />
+                            ) : (
+                                <Switch location={location} key={location.pathname}>
+                                    <NavMotion>
+                                        <Route path="/login" component={Auth} />
+                                        <Route path="/activate" component={Auth} />
+                                        <Route path="/login?register" component={Auth} />
+                                        <Route path="/application/login" component={Auth} />
+                                        <Route path="/application/register" component={Auth} />
+                                        <Route path="/register" component={Auth} />
+                                        <Route path="/application/forgot-password" component={Auth} />
+                                        <Route path="/forgot-password" component={Auth} />
+                                        <Route path="/pages/error/error1" component={Auth} />
+                                        <Route path="/pages/error/error2" component={Auth} />
+                                    </NavMotion>
+                                </Switch>
+                            )}
+                            </>
                         </MinimalLayout>
                     </Route>
                     <Route
                         path={[
-                            // '/register',
                             '/',
                             '/application/register',
-                            // '/forgot-password',
                             '/application/forgot-password',
                             '/application/login',
                             '/pages/error/error1',
                             '/pages/error/error2',
                             '/pages/comingsoon',
-
                             
                             '/widget/statistic',
                             '/widget/data',
@@ -157,110 +172,110 @@ const Routes = () => {
                         ]}
                     >
                         <MainLayout>
-                            <Switch location={location} key={location.pathname}>
-                                <NavMotion>
-                                    <Route path="/application/login" component={AuthLogin} />
-                                    <Route path="/application/register" component={Price} />
-                                    <Route path="/register" component={Price} />
-                                    <Route path="/application/forgot-password" component={Price} />
-                                    <Route path="/forgot-password" component={Price} />
-                                    <Route path="/pages/error/error1" component={Price} />
-                                    <Route path="/pages/error/error2" component={Price} />
-                                    <Route path="/pages/comingsoon" component={Price} />
+                            <>
+                                {isAuthenticated ? (
+                                <Switch location={location} key={location.pathname}>
+                                        <NavMotion>
+                                        <Route path="/application/login" component={Auth} />
+                                        <Route path="/application/register" component={Price} />
+                                        <Route path="/register" component={Price} />
+                                        <Route path="/application/forgot-password" component={Price} />
+                                        <Route path="/forgot-password" component={Price} />
+                                        <Route path="/pages/error/error1" component={Price} />
+                                        <Route path="/pages/error/error2" component={Price} />
+                                        <Route path="/pages/comingsoon" component={Price} />
+                                        <Route path="/utils/util-typography" component={UtilsTypography} />
+                                        <Route path="/multi-language" component={MultiLanguage} />
+                                        <Route path="/rtl" component={RtlLayout} />
+                                        <Route path="/utils/util-icons" component={UtilsIcons} />
+                                        <Route path="/tables/table-basic" component={TableBasic} />
+                                        <Route path="/widget/statistic" component={Price} />
+                                        <Route path="/widget/data" component={Price} />
+                                        <Route path="/widget/chart" component={Price} />
+                                        <Route path="/user/account" component={Price} />
+                                        <Route path="/user/card" component={Price} />
+                                        <Route path="/user/list" component={Price} />
+                                        <Route path="/user/profile" component={Price} />
+                                        <Route path="/user/socialprofile" component={Price} />
+                                        <Route path="/application/ecommerce/account" component={Price} />
+                                        <Route path="/application/ecommerce/product" component={Price} />
+                                        <Route path="/application/ecommerce/customerlist" component={Price} />
+                                        <Route path="/application/ecommerce/orderlist" component={Price} />
+                                        <Route path="/application/ecommerce/orderdetails" component={Price} />
+                                        <Route path="/application/ecommerce/addproduct" component={Price} />
+                                        <Route path="/application/ecommerce/productreview" component={Price} />
+                                        <Route path="/application/contacts/list" component={Price} />
+                                        <Route path="/application/contacts/card" component={Price} />
+                                        <Route path="/application/mail" component={Price} />
+                                        <Route path="/application/chat" component={Price} />
+                                        <Route path="/application/price/price1" component={Price} />
+                                        <Route path="/application/price/price2" component={Price} />
+                                        <Route path="/application/price/price3" component={Price} />
+                                        <Route path="/basic/accordion" component={Price} />
+                                        <Route path="/basic/avatar" component={Price} />
+                                        <Route path="/basic/badges" component={Price} />
+                                        <Route path="/basic/breadcrumb" component={Price} />
+                                        <Route path="/basic/cards" component={Price} />
+                                        <Route path="/basic/chip" component={Price} />
+                                        <Route path="/basic/list" component={Price} />
+                                        <Route path="/basic/tabs" component={Price} />
+                                        <Route path="/advance/alert" component={Price} />
+                                        <Route path="/advance/dialog" component={Price} />
+                                        <Route path="/advance/pagination" component={Price} />
+                                        <Route path="/advance/progress" component={Price} />
+                                        <Route path="/advance/rating" component={Price} />
+                                        <Route path="/advance/snackbar" component={Price} />
+                                        <Route path="/advance/speeddial" component={Price} />
+                                        <Route path="/advance/timeline" component={Price} />
+                                        <Route path="/advance/toggle-button" component={Price} />
+                                        <Route path="/advance/treeview" component={Price} />
+                                        <Route path="/forms/frm-autocomplete" component={Price} />
+                                        <Route path="/forms/frm-button" component={Price} />
+                                        <Route path="/forms/frm-checkbox" component={Price} />
+                                        <Route path="/forms/frm-datetime" component={Price} />
+                                        <Route path="/forms/frm-listbox" component={Price} />
+                                        <Route path="/forms/frm-radio" component={Price} />
+                                        <Route path="/forms/frm-select" component={Price} />
+                                        <Route path="/forms/frm-slider" component={Price} />
+                                        <Route path="/forms/frm-switch" component={Price} />
+                                        <Route path="/forms/frm-text-field" component={Price} />
+                                        <Route path="/tables/dense-table" component={Price} />
+                                        <Route path="/tables/enhanced-table" component={Price} />
+                                        <Route path="/tables/data-table" component={Price} />
+                                        <Route path="/tables/customized-table" component={Price} />
+                                        <Route path="/tables/sticky-header-table" component={Price} />
+                                        <Route path="/tables/collapse-table" component={Price} />
+                                        <Route path="/mui-datatables/mui-simple" component={Price} />
+                                        <Route path="/mui-datatables/mui-column-filters" component={Price} />
+                                        <Route path="/mui-datatables/mui-column-options-update" component={Price} />
+                                        <Route path="/mui-datatables/mui-component-edit" component={Price} />
+                                        <Route path="/mui-datatables/mui-column-sort" component={Price} />
+                                        <Route path="/mui-datatables/mui-csv-export" component={Price} />
+                                        <Route path="/mui-datatables/mui-custom-action-button" component={Price} />
+                                        <Route path="/mui-datatables/mui-custom-components" component={Price} />
+                                        <Route path="/mui-datatables/mui-customize-columns" component={Price} />
+                                        <Route path="/mui-datatables/mui-customize-filter" component={Price} />
+                                        <Route path="/mui-datatables/mui-draggable-columns" component={Price} />
+                                        <Route path="/mui-datatables/mui-expandable-rows" component={Price} />
+                                        <Route path="/mui-datatables/mui-fixed-header" component={Price} />
+                                        <Route path="/mui-datatables/mui-resizable-columns" component={Price} />
+                                        <Route path="/mui-datatables/mui-selectable-rows" component={Price} />
+                                        <Route path="/utils/util-modal" component={Price} />
+                                        <Route path="/utils/util-tooltip" component={Price} />
+                                        <Route path="/utils/util-popover" component={Price} />
+                                        <Route path="/utils/util-popper" component={Price} />
+                                        <Route path="/utils/util-transitions" component={Price} />
+                                        <Route path="/sample-page" component={Price} />
+                                        <Route exact path="/dashboard" component={DashboardDefault} />
+                                        <Route path="/dashboard/settings" component={Settings} />
 
-                                    <Route path="/utils/util-typography" component={UtilsTypography} />
-                                    <Route path="/multi-language" component={MultiLanguage} />
-                                    <Route path="/rtl" component={RtlLayout} />
-                                    <Route path="/utils/util-icons" component={UtilsIcons} />
-                                    <Route path="/tables/table-basic" component={TableBasic} />
-
-                                    <Route path="/widget/statistic" component={Price} />
-                                    <Route path="/widget/data" component={Price} />
-                                    <Route path="/widget/chart" component={Price} />
-                                    <Route path="/user/account" component={Price} />
-                                    <Route path="/user/card" component={Price} />
-                                    <Route path="/user/list" component={Price} />
-                                    <Route path="/user/profile" component={Price} />
-                                    <Route path="/user/socialprofile" component={Price} />
-                                    <Route path="/application/ecommerce/account" component={Price} />
-                                    <Route path="/application/ecommerce/product" component={Price} />
-                                    <Route path="/application/ecommerce/customerlist" component={Price} />
-                                    <Route path="/application/ecommerce/orderlist" component={Price} />
-                                    <Route path="/application/ecommerce/orderdetails" component={Price} />
-                                    <Route path="/application/ecommerce/addproduct" component={Price} />
-                                    <Route path="/application/ecommerce/productreview" component={Price} />
-                                    <Route path="/application/contacts/list" component={Price} />
-                                    <Route path="/application/contacts/card" component={Price} />
-                                    <Route path="/application/mail" component={Price} />
-                                    <Route path="/application/chat" component={Price} />
-                                    <Route path="/application/price/price1" component={Price} />
-                                    <Route path="/application/price/price2" component={Price} />
-                                    <Route path="/application/price/price3" component={Price} />
-                                    <Route path="/basic/accordion" component={Price} />
-                                    <Route path="/basic/avatar" component={Price} />
-                                    <Route path="/basic/badges" component={Price} />
-                                    <Route path="/basic/breadcrumb" component={Price} />
-                                    <Route path="/basic/cards" component={Price} />
-                                    <Route path="/basic/chip" component={Price} />
-                                    <Route path="/basic/list" component={Price} />
-                                    <Route path="/basic/tabs" component={Price} />
-                                    <Route path="/advance/alert" component={Price} />
-                                    <Route path="/advance/dialog" component={Price} />
-                                    <Route path="/advance/pagination" component={Price} />
-                                    <Route path="/advance/progress" component={Price} />
-                                    <Route path="/advance/rating" component={Price} />
-                                    <Route path="/advance/snackbar" component={Price} />
-                                    <Route path="/advance/speeddial" component={Price} />
-                                    <Route path="/advance/timeline" component={Price} />
-                                    <Route path="/advance/toggle-button" component={Price} />
-                                    <Route path="/advance/treeview" component={Price} />
-                                    <Route path="/forms/frm-autocomplete" component={Price} />
-                                    <Route path="/forms/frm-button" component={Price} />
-                                    <Route path="/forms/frm-checkbox" component={Price} />
-                                    <Route path="/forms/frm-datetime" component={Price} />
-                                    <Route path="/forms/frm-listbox" component={Price} />
-                                    <Route path="/forms/frm-radio" component={Price} />
-                                    <Route path="/forms/frm-select" component={Price} />
-                                    <Route path="/forms/frm-slider" component={Price} />
-                                    <Route path="/forms/frm-switch" component={Price} />
-                                    <Route path="/forms/frm-text-field" component={Price} />
-
-                                    <Route path="/tables/dense-table" component={Price} />
-                                    <Route path="/tables/enhanced-table" component={Price} />
-                                    <Route path="/tables/data-table" component={Price} />
-                                    <Route path="/tables/customized-table" component={Price} />
-                                    <Route path="/tables/sticky-header-table" component={Price} />
-                                    <Route path="/tables/collapse-table" component={Price} />
-                                    <Route path="/mui-datatables/mui-simple" component={Price} />
-                                    <Route path="/mui-datatables/mui-column-filters" component={Price} />
-                                    <Route path="/mui-datatables/mui-column-options-update" component={Price} />
-                                    <Route path="/mui-datatables/mui-component-edit" component={Price} />
-                                    <Route path="/mui-datatables/mui-column-sort" component={Price} />
-                                    <Route path="/mui-datatables/mui-csv-export" component={Price} />
-                                    <Route path="/mui-datatables/mui-custom-action-button" component={Price} />
-                                    <Route path="/mui-datatables/mui-custom-components" component={Price} />
-                                    <Route path="/mui-datatables/mui-customize-columns" component={Price} />
-                                    <Route path="/mui-datatables/mui-customize-filter" component={Price} />
-                                    <Route path="/mui-datatables/mui-draggable-columns" component={Price} />
-                                    <Route path="/mui-datatables/mui-expandable-rows" component={Price} />
-                                    <Route path="/mui-datatables/mui-fixed-header" component={Price} />
-                                    <Route path="/mui-datatables/mui-resizable-columns" component={Price} />
-                                    <Route path="/mui-datatables/mui-selectable-rows" component={Price} />
-                                    <Route path="/utils/util-modal" component={Price} />
-                                    <Route path="/utils/util-tooltip" component={Price} />
-                                    <Route path="/utils/util-popover" component={Price} />
-                                    <Route path="/utils/util-popper" component={Price} />
-                                    <Route path="/utils/util-transitions" component={Price} />
-
-                                    <Route path="/sample-page" component={Price} />
-
-                                    <Route exact path="/dashboard" component={DashboardDefault} />
-                                    <Route path="/dashboard/settings" component={Settings} />
-
-                                    <Route path="/" exact component={DashboardDefault} />
-
-                                </NavMotion>
-                            </Switch>
+                                        <Route path="/" exact component={DashboardDefault} />
+                                    </NavMotion>
+                                </Switch>
+                                ) : (
+                                    <Redirect exact from="/" to="/login" />
+                                )}
+                            </>
                         </MainLayout>
                     </Route>
                 </Switch>

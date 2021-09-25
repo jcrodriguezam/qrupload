@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import { makeStyles, useMediaQuery, useTheme, AppBar, CssBaseline, Toolbar } from '@material-ui/core';
 
-import { drawerWidth } from './../../store/constant';
+import { drawerWidth } from '../../store/constant';
 import Header from './Header';
 import Sidebar from './Sidebar';
 

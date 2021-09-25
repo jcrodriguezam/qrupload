@@ -10,7 +10,7 @@ import SearchSection from './SearchSection';
 import ProfileSection from './ProfileSection';
 import NotificationSection from './NotificationSection';
 
-import { drawerWidth } from './../../../store/constant';
+import { drawerWidth } from '../../../store/constant';
 
 const useStyles = makeStyles((theme) => ({
     grow: {
