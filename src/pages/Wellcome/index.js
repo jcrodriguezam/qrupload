@@ -1,12 +1,13 @@
 import React from 'react';
 import {  makeStyles, Fade } from '@material-ui/core';
 
-import { AuthPanel } from '../../components/login';
+import { WellcomePanel } from '../../components/wellcome';
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import logoDark from './../../assets/images/logo-dark.svg';
 import logoLight from './../../assets/images/logo.svg';
+import background from './../../assets/images/bg1.jpg';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -56,14 +57,14 @@ const BackgroundImg = ({isLoaded, onLoad}) => {
             <img 
                 className={classes.backgroundImg}
                 alt= "background"
-                src='https://source.unsplash.com/1600x900/?pattern-background&landscape&teal'
+                src={background}
                 onLoad={() => onLoad()}
             />
         </Fade>
     )
 };
 
-const Auth = () => {
+const Wellcome = () => {
     const location = useLocation()
     let {pathname, search} = location;
     const themeColor = useSelector((state) => state.customization.navType);
@@ -90,9 +91,9 @@ const Auth = () => {
     return (
         <>
             <BackgroundImg onLoad={handleOnLoad} isLoaded={bgLoaded}/>
-            <AuthPanel panelContent={pathname} show={bgLoaded}/>
+            <WellcomePanel panelContent={pathname} show={bgLoaded}/>
         </>
     );
 };
 
-export default Auth;
+export default Wellcome;

@@ -5,7 +5,7 @@ export default {
     isOpen: 'dashboard', //for active default menu
     locale: config.i18n,
     rtlLayout: config.rtlLayout,
-    navType: 'dark',
+    navType: 'light',
     hideSearch: false,
     hideNotifications: false,
     primary: '#3cb778',

@@ -13,6 +13,8 @@ import NavMotion from '../layout/NavMotion';
 import MainLayout from '../layout/MainLayout';
 import MinimalLayout from '../layout/MinimalLayout';
 
+const Wellcome = lazy(() => import('../pages/Wellcome'));
+
 const Auth = lazy(() => import('../pages/Auth'));
 
 const Price = lazy(() => import('../pages/Application/Price/Price2'));
@@ -45,12 +47,13 @@ const Routes = () => {
         <AnimatePresence>
             <Suspense fallback={<Loader />}>
                 <Switch>
-                    <Redirect exact from="/" to="/login" />
+                    <Redirect exact from="/" to="/wellcome" />
                     <Route path={[
                         "/login",
                         "/activate",
                         "/register",
                         "/forgot-password",
+                        '/wellcome',
                         ]}>
                         <MinimalLayout>
                             <>
@@ -59,6 +62,7 @@ const Routes = () => {
                             ) : (
                                 <Switch location={location} key={location.pathname}>
                                     <NavMotion>
+                                        <Route path="/wellcome" component={Wellcome} />
                                         <Route path="/login" component={Auth} />
                                         <Route path="/activate" component={Auth} />
                                         <Route path="/login?register" component={Auth} />
