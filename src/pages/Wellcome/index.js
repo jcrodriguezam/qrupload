@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 
 import logoDark from './../../assets/images/logo-dark.svg';
 import logoLight from './../../assets/images/logo.svg';
-import background from './../../assets/images/bg1.jpg';
+import background from './../../assets/images/bg0.jpg';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -22,8 +22,8 @@ const useStyles = makeStyles((theme) => ({
         left: 0,
         objectFit: 'cover',
         objectPosition: 'center',
-        height: '100vh',
-        width: '100vw',
+        height: '100%',
+        width: '100%',
         transition: 'all .3s ease-in',
         zIndex: -1,
         },

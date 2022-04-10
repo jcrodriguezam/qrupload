@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const ForgotPassword = ({updatePanel}) => {
+const ForgotPassword = ({updatePanel, goBack, next}) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const [email, setEmail] = React.useState('');
@@ -46,20 +46,25 @@ const ForgotPassword = ({updatePanel}) => {
 
     return (
         <>
+            <Grid container justify="flex-start" className={classes.margin}>
+                <Grid item>
+                    <Typography
+                        variant="subtitle2"
+                        color="primary"
+                        className={classes.forgot}
+                        onClick={() => goBack()}
+                    >
+                        &lt; Atrás
+                    </Typography>
+                </Grid>
+            </Grid>
+
             <Grid item xs={12}>
                 <Typography
                     color="primary"
                     className={classes.title}
                 >
-                    Restablecer contraseña
-                </Typography>
-                <Typography
-                    variant="subtitle2"
-                    color="secondary"
-                    className={classes.subtitle}
-                    style={{display: isSended ? 'flex' : 'none', justifyContent: 'center'}}
-                >
-                    Revise su email.
+                    Sube a nuestra nube
                 </Typography>
                 <br />
                 <Typography
@@ -68,15 +73,7 @@ const ForgotPassword = ({updatePanel}) => {
                     className={classes.text}
                     style={{display: !isSended ? 'flex' : 'none'}}
                 >
-                    Indique su correo electrónico para proceder a la recuperación de la cuenta.
-                </Typography>
-                <Typography
-                    variant="body1"
-                    color="textPrimary"
-                    className={classes.text}
-                    style={{display: isSended ? 'flex' : 'none'}}
-                >
-                    Recibirá un correo electrónico con la información para restablecer las claves de acceso a su cuenta.
+                    Dejanos tu email y compartiremos contigo el album de nuestra boda.
                 </Typography>
                 <TextField
                     fullWidth
@@ -87,36 +84,21 @@ const ForgotPassword = ({updatePanel}) => {
                     defaultValue={email}
                     variant="outlined"
                     onChange={(e) => {handleSetEmail(e.target.value)}}
-                    style={{display: !isSended ? 'flex' : 'none'}}
-
                 />
                 <Button
                     fullWidth
                     color="primary"
                     variant="outlined"
-                    disabled = {!email}
                     style={{display: !isSended ? 'flex' : 'none'}}
                     onClick={async () => {
-                        await dispatch.users.sendPasswordResetEmail({email})
-                        handleSetIsSended(true)
+                        next()
                     }}
                 >
-                    Enviar
+                    {email ? 'Comenzar !!' : 'No quiero dejar mi email'}
                 </Button>
             </Grid>
             <Divider />
-            <Grid container justify="flex-start" className={classes.margin}>
-                <Grid item>
-                    <Typography
-                        variant="subtitle2"
-                        color="primary"
-                        className={classes.forgot}
-                        onClick={() => updatePanel('login')}
-                    >
-                        &lt; Iniciar sesión.
-                    </Typography>
-                </Grid>
-            </Grid>
+       
         </>
     );
 };

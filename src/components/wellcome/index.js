@@ -1,6 +1,9 @@
 import React, { lazy } from 'react';
+import parse from 'html-react-parser'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useDispatch, useSelector } from 'react-redux';
+import { FileInupt } from "./TakePhoto";
+
 import {
     faMicrosoft,
     faFacebook,
@@ -26,13 +29,22 @@ import blue from '@material-ui/core/colors/blue';
 import grey from '@material-ui/core/colors/grey';
 import logoDark from './../../assets/images/logo-dark.svg';
 import logoLight from './../../assets/images/logo.svg';
+
+
 import carla from './../../assets/images/carla.png';
 import jose from './../../assets/images/jose.png';
 import mario from './../../assets/images/mario.png';
+import rei from './../../assets/images/rei.png';
+import suegra from './../../assets/images/suegra.png';
+import copa from './../../assets/images/copa.png';
+import malo from './../../assets/images/malo.png';
+import pregunta1 from './../../assets/images/pregunta1.png';
+import pregunta3 from './../../assets/images/pregunta3.png';
 
 const FreeLogin = lazy(() => import('./FreeLogin'));
 const SignUp = lazy(() => import('./Register'));
-const ForgotPassword = lazy(() => import('./ForgotPassword'));
+const FollowMe = lazy(() => import('./FollowMe'));
+const TakePhoto = lazy(() => import('./TakePhoto'));
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -132,67 +144,34 @@ const useStyles = makeStyles((theme) => ({
         margin: 'auto',
         backgroundColor: 'transparent',
         maxWidth: '250px',
-        height: '210px',
+        height: '170px',
         objectFit:'contain',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        //'o-webkit-filter': 'drop-shadow(2px 2px 5px #c4c9e5 )',
+        //filter: 'drop-shadow(2px 2px 5px #c4c9e5)',
     },
     userTitle: {
         display: 'flex',
         margin: 'auto',
         justifyContent: 'center',
-        marginTop: '1em',
-        fontSize: '1.3em'
+        marginTop: '.1em',
+        fontSize: '2em',
+        whiteSpace: 'noWrap',
+        // backgroundColor: '#c4c9e5b5',
+        padding: '0 2em',
+        fontWeight: 600,
     },
+    accentColor: {
+        color: '#ef5350'
+    }
     
 }));
 
-const LoginButton = ({type}) => {
-    const dispatch = useDispatch();
-    const classes = useStyles();
-    const LOGIN_BUTTON_CONTENT = {
-        GOOGLE: {
-            icon: faGoogle,
-            text: 'Iniciar sesión con Google',
-            action: () => dispatch.auth.googleAuth(),
-            classes: [classes.socialButton, classes.google]
-        },
-        APPLE: {
-            icon: faApple,
-            text: 'Iniciar sesión con Apple',
-            action: () => alert('Iniciar sesión con Apple'),
-            classes: [classes.socialButton, classes.apple]
-        },
-        FACEBOOK: {
-            icon: faFacebook,
-            text: 'Iniciar sesión con Facebook',
-            action: () => alert('Iniciar sesión con Facebook'),
-            classes: [classes.socialButton, classes.facebook]
-        },
-        MICROSOFT: {
-            icon: faMicrosoft,
-            text: 'Iniciar sesión con Microsoft',
-            action: () => alert('Iniciar sesión con Facebook'),
-            classes: [classes.socialButton, classes.microsoft]
-        },
-    }
+const extras = ['mario', 'rei', 'copa', 'pregunta1', 'pregunta2', 'malo', 'pregunta3'];
 
-    if (!LOGIN_BUTTON_CONTENT[type]) return '';
-
-    return (
-        <Button
-            variant="contained"
-            className={LOGIN_BUTTON_CONTENT[type].classes}
-            onClick={() => LOGIN_BUTTON_CONTENT[type].action()}
-            >
-            <FontAwesomeIcon icon={LOGIN_BUTTON_CONTENT[type].icon} />
-            {LOGIN_BUTTON_CONTENT[type].text}
-        </Button>
-    );
-};
 
 
 const Overlay = (props) => {
-    const classes = useStyles();
     return  (
         <div>
             {props.children}
@@ -200,31 +179,57 @@ const Overlay = (props) => {
     );
 };
 
-const PanelContent = ({content, updatePanelContent}) => {
-    switch (content) {
-        case 'signUp':
-            return <SignUp updatePanel={updatePanelContent}/>;
-        case 'forgotPassword':
-            return <ForgotPassword updatePanel={updatePanelContent}/>;
-        default:
-        case 'wellcome':
-            return <FreeLogin updatePanel={updatePanelContent}/>;
-    }
-};
-
-const User = ({content, userName}) => {
+const User = ({userName}) => {
     const classes = useStyles();
-let foto = carla;
+let foto = mario;
+let description
 switch (userName) {
-    case 'jose': foto= jose; break;
-    case 'carla': foto= carla; break;
-     default: foto= mario; break;
-
+    case 'jose': 
+        foto = jose; 
+        description = <span>Soy amig@ de <b className={classes.accentColor}>Jose</b></span>
+        break;
+    case 'carla': 
+        foto = carla; 
+        description = <span>Soy amig@ de <b className={classes.accentColor}>Carla</b></span>
+        break;
+    case 'rei': 
+        foto = rei; 
+        description = <span>Perdón, me he <b className={classes.accentColor}>equivocado</b></span>
+        break;
+    case 'copa': 
+        foto = copa; 
+        description = <span>Caña <b className={classes.accentColor}>aquí</b> !!!</span>
+        break;
+    case 'pregunta1': 
+        foto = pregunta1; 
+        description = <span>¿Quién es <b className={classes.accentColor}>Jose</b>?</span>
+        break;
+    case 'pregunta2': 
+        foto = suegra; 
+        description = <span>¿Quién es <b className={classes.accentColor}>Carla</b>?</span>
+        break;
+    case 'pregunta3': 
+        foto = pregunta3; 
+        description = <span>¿Pero quién se <b className={classes.accentColor}>casa</b>?</span>
+        break;
+    case 'malo': 
+        foto = malo; 
+        description = <span>Vengo a <b className={classes.accentColor}>destruir</b> esta boda</span>
+        break;
+    case 'mario': 
+        foto = mario; 
+        description = <span>Me he <b className={classes.accentColor}>colado</b> en la boda</span>
+        break;
+    default: 
+        foto = mario; 
+        description = <span>Me he <b className={classes.accentColor}>colado</b> en la boda</span>
+        break;
 }
+
     return  (
-        <Box flexDirection='column'>
-                <img src={foto} className={classes.user}/>
-            <span className={classes.userTitle}>{content}</span>
+        <Box flexDirection='column' mb='2em'>
+            <img src={foto} className={classes.user}/>
+            <span className={classes.userTitle}>{description}</span>
         </Box>
     );
 };
@@ -233,6 +238,8 @@ const Panel = ({content, updatePanelContent}) => {
     const classes = useStyles();
     const themeColor = useSelector((state) => state.customization.navType);
     const [logo, setLogo] = React.useState(undefined);
+    const [step, setStep] = React.useState(1);
+
     const [iniciar, setIniciar] = React.useState(undefined);
     React.useEffect(() => {
         switch (themeColor) {
@@ -252,29 +259,80 @@ const Panel = ({content, updatePanelContent}) => {
       }, []);
       const containerRef = React.useRef(null);
 
+      const extraPos = Math.floor(Math.random() * (extras.length - 0)) + 0;
+      const extrauser = extras[extraPos]
+
+      const nextStep = (value) => {
+        if (value) {
+            setStep(value)
+        } else {
+            setStep(step + 1)
+        }
+    }
+      const goBack = (value) => { 
+          console.log(value)
+          if (value) {
+            setStep(value) 
+          } else {
+            setStep(step - 1)
+        }
+      }
+
     return  (
-        <Grid container justify="center" alignItems="center" className={classes.root} margin='auto'>
-            <Grid item xs={6} justifyContent="center">
-                <Slide direction="right" in={iniciar} container={containerRef.current}>
-                    <Box justifyContent="center">
-                        <User userName='jose' content='Soy amigo de Jose' />
-                    </Box>
-                </Slide>
-            </Grid>
-            <Grid item xs={6} justifyContent="center" >
-                <Slide direction="left" in={iniciar} container={containerRef.current}>
-                    <Box justifyContent="center">
-                        <User userName='carla' content='Soy amigo de Carla' />
-                    </Box>
-                </Slide>
-            </Grid>
-            <Grid item xs={6}>
-                <Slide direction="up" in={iniciar} container={containerRef.current}>
-                    <div>
-                        <User userName='otro' content='Me he colado en la boda' />
-                    </div>
-                </Slide>
-            </Grid>
+        <Grid container justify="center" alignItems="center" className={classes.root} margin='auto' direction='column'>
+            {step === 1 && (
+                <>
+                    <Grid item xs={6} justifyContent="center">
+                        <Slide direction="down" in={iniciar && step === 1}  out={step !== 1} container={containerRef.current}>
+                            <Box justifyContent="center">
+                                <h1 className={classes.accentColor} style={{whiteSpace: 'noWrap'}}>Nos re-casamos</h1>
+                            </Box>
+                        </Slide>
+                    </Grid>
+                    <Grid item xs={6} justifyContent="center">
+                        <Slide direction="right" in={iniciar && step === 1}  out={step !== 1} container={containerRef.current}>
+                            <Box justifyContent="center"  onClick={() => nextStep(3)}>
+                                <User userName='jose'/>
+                            </Box>
+                        </Slide>
+                    </Grid>
+                    <Grid item xs={6} justifyContent="center" >
+                        <Slide direction="left" in={iniciar && step === 1}  out={step !== 1} container={containerRef.current}>
+                            <Box justifyContent="center"  onClick={() => nextStep(3)}>
+                                <User userName='carla' />
+                            </Box>
+                        </Slide>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Slide direction="up" in={iniciar && step === 1} out={step !== 1} container={containerRef.current}>
+                            <Box justifyContent="center"  onClick={() => nextStep(3)}>
+                                <User userName={extrauser} />
+                            </Box>
+                        </Slide>
+                    </Grid>
+                </>
+            )}
+
+            {step === 2 && (
+                <Grid item xs={10}>
+                    <Slide direction="up" in={iniciar && step === 2}  out={step !== 2} container={containerRef.current}>
+                        <Card className={classes.card} elevation={15} >
+                            <CardContent className={classes.content}>
+                                <FollowMe goBack={() => goBack()} next={() => nextStep()}/>
+                            </CardContent>
+                        </Card>
+                    </Slide>
+                </Grid>
+            )}
+            {step === 3 && (
+                <Grid item xs={10} style={{width: '100%'} }>
+                    <Slide direction="up" in={iniciar && step === 3}  out={step !== 3} container={containerRef.current}>
+                        <Box>
+                            <FileInupt/>
+                        </Box>
+                    </Slide>
+                </Grid>
+            )}
         </Grid>
     )
 };
