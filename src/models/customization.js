@@ -8,7 +8,7 @@ export default {
     navType: 'light',
     hideSearch: false,
     hideNotifications: false,
-    primary: '#3cb778',
+    primary: '#fff', //'#3cb778',
     menuHover: '#e9fff4',
   },
   reducers: {

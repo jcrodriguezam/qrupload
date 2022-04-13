@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import VideoSnapshot from 'video-snapshot';
+import { useDispatch } from 'react-redux';
+
 import { 
   Card,
   CardContent,
@@ -11,7 +13,13 @@ import {
   Fade,
   Slide,
   Box,
-  Container
+  Container,
+  Backdrop,
+  CircularProgress,
+  Fab,
+  Avatar,
+  Badge,
+  SmallAvatar
 } from '@material-ui/core';
 
 import red from '@material-ui/core/colors/red';
@@ -22,6 +30,8 @@ import grey from '@material-ui/core/colors/grey';
 import CameraAltTwoToneIcon from '@material-ui/icons/CameraAltTwoTone';
 import AddToPhotosTwoToneIcon from '@material-ui/icons/AddToPhotosTwoTone';
 import CloudUploadTwoToneIcon from '@material-ui/icons/CloudUploadTwoTone';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import CloseIcon from '@material-ui/icons/Close';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -142,10 +152,14 @@ const useStyles = makeStyles((theme) => ({
   
 }));
 
-export const FileInupt = () => {
+export const FileInupt = ({next}) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const [images, setImages] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [zoom, setZoom] = useState(false);
+
 
   const toBase64 = (file) =>
     new Promise((resolve, reject) => {
@@ -161,14 +175,13 @@ export const FileInupt = () => {
     for (let i = 0; i < fileList.length; i++) {
         if (fileList[i].type.match(/image\//))  {
             const img = URL.createObjectURL(fileList[i])
-            files.push({data: img, snapshot: img});
+            files.push({data: fileList[i], snapshot: img});
 
         }
       if ( fileList[i].type.match(/video\//)) {
-        
           const snapshoter = new VideoSnapshot(fileList[i]);
           const previewSrc = await snapshoter.takeSnapshot(1);
-        files.push({data: URL.createObjectURL(fileList[i]), snapshot: previewSrc});
+        files.push({data: fileList[i], snapshot: previewSrc});
       }
     }
 
@@ -176,23 +189,64 @@ export const FileInupt = () => {
       const allFiles = [...images, ...files]
       setImages(allFiles);
     }
+    setIsLoading(false);
   }
 
   async function test(image) {
+    setIsLoading(true);
     const files = image.target.files;
     await doSomethingWithFiles(files);
   }
 
+  async function handleUpload(images) {
+    if (!images.length) return;
+    setIsLoading(true)
+    const res = await dispatch.data.uploadToGDrive({files: images})
+    if (res) {
+      setIsLoading(false);
+      setImages([])
+      next()
+    }
+
+  }
+  const handleZoom = (image) => setZoom(image)
+const removeZoom = () => setZoom(false)
+const handleRemove = (index) => {
+  console.log('entramos al handle remove', index)
+  const newImages = [...images];
+  newImages.splice(index,1);
+  console.log('newImages', newImages.length)
+  console.log('images', images.length)
+
+  setImages(newImages)
+}
+
+const Overlay = (props) => {
+  const classes = useStyles();
+  return  (
+      <div className={classes.overlay}>
+          {props.children}
+      </div>
+  );
+};
   return (
     <>
 
-      <Card className={classes.card} elevation={15} >
+      <Card className={classes.card} elevation={15} style={{position: 'fixed', right: '2em', top: 'calc(100vh - 11em)', left: '2em', zIndex: '10'}}>
         <CardContent className={classes.content} >
           <Grid container justify="center" alignItems="center" className={classes.root} margin='auto' direction='row'>
               <Grid item xs={4} justifyContent="center">
                 <label for="capturePhoto">
-                  <input type="file" accept="image/*" capture="camera" onChange={test} id="capturePhoto" style={{display: "none"}}/>
+                  <input type="file" accept="*" capture="camera" onChange={test} id="capturePhoto" style={{display: "none"}} multiple/>
                   <CameraAltTwoToneIcon fontSize="large" style={{width: '100%'}}/>
+                  <Typography
+                    mb={0}
+                    variant="subtitle2"
+                    color="seccondary"
+                    align="center"
+                  >
+                      Cámara
+                  </Typography>
                 </label>
               </Grid>
               <Grid item xs={4} justifyContent="center">
@@ -208,24 +262,96 @@ export const FileInupt = () => {
                         style={{display: "none"}}
                       />
                     <AddToPhotosTwoToneIcon fontSize="large" style={{width: '100%'}}/>
+                    <Typography
+                      mb={0}
+                      variant="subtitle2"
+                      color="seccondary"
+                      align="center"
+                    >
+                        Galería
+                    </Typography>
                   </label>
                 </form>
               </Grid>
-              <Grid item xs={4} justifyContent="center">
-                <CloudUploadTwoToneIcon fontSize="large" style={{width: '100%'}}/>
+              <Grid item xs={4} justifyContent="center" onClick={() => handleUpload(images)}>
+                <CloudUploadTwoToneIcon fontSize="large" style={{width: '100%', color: images.length ? '#0089BE' : 'silver'}} />
+                 <Typography
+                    mb={0}
+                    variant="subtitle2"
+                    color="seccondary"
+                    align="center"
+                    style={{color: images.length ? '#0089BE' : 'silver'}}
+                  >
+                    Subir todo
+                  </Typography>
               </Grid>
             </Grid>
         </CardContent>
       </Card>
+
       <br />
 
-      <Grid container spacing={2} columns={2} >
-        {images.map((image, index) => (
-          <Grid item xs={4} key={index}>
-            <img alt="cam" src={image.snapshot} style={{ width: '100%', height: '150px',  objectFit: 'cover', boxShadow: '0 6px 10px rgba(0,0,0,.2)', border: '1px solid #dadada'}}/>
+      {!images.length && (
+        <Grid container spacing={0} >
+          <Grid item xs={12} justifyContent="center">
+            <Typography
+              style={{
+              marginTop: '3em',
+              fontWeight:600,
+              color: '#dcdcdccf',
+              fontSize: '1.4em'
+            }}
+              variant="subtitle2"
+              color="seccondary"
+              align="center"
+            >
+                Haz nuevas fotos y videos o cargalas desde tu galería y subelos a nuestra nube.
+            </Typography>
           </Grid>
-        ))}
-      </Grid>
+          </Grid>
+      )}
+      {zoom && (
+            <Overlay>
+              <img alt="cam" onClick={() => removeZoom()} src={zoom} style={{ width: '90%', height: '90%', margin: 'auto', objectFit: 'contain', zIndex: 9999, display: zoom ? 'flex' : 'none'}}/>
+            </Overlay>
+
+      )}
+      {!zoom && (
+        <Grid container spacing={1} columns={2} >
+          {images.map((image, index) => (
+            <Grid item xs={4} key={index} style={{position: 'relative'}}>
+              <Badge
+                overlap="circular"
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                badgeContent={
+                  <CloseIcon onClick={() => handleRemove(index)} style={{color: '#b90164', backgroundColor: '#ffffffbb', borderRadius: '3px'}}/>
+                }
+              >
+              <Avatar 
+                onClick={() => handleZoom(image.snapshot)} 
+                src={image.snapshot} 
+                variant='rounded'
+                style={{ 
+                  width: 'calc(100vw/4)',
+                  height: 'calc(100vw/4)',
+                  maxWidth: '200px',
+                  maxHeight: '200px',
+                  backgroundColor: '#fafafa',
+                  boxShadow: '0px 3px 10px rgb(0 96 126 / 60%)'
+                }}
+              />
+              </Badge>
+
+            </Grid>
+          ))}
+        </Grid>
+      )}
+      <Backdrop
+        style={{zIndex: 20, color: '#fff'}}
+        open={isLoading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </>
   );
 };

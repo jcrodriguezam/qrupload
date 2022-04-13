@@ -7,8 +7,11 @@ import { useSelector } from 'react-redux';
 
 import logoDark from './../../assets/images/logo-dark.svg';
 import logoLight from './../../assets/images/logo.svg';
-import background from './../../assets/images/bg0.jpg';
-
+import background from './../../assets/images/bg2.jpg';
+const bgUnsp1 = 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2755&q=80'
+const bgUnsp2 = 'https://images.unsplash.com/photo-1505228395891-9a51e7e86bf6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3266&q=80'
+const bgUnsp3 = 'https://images.unsplash.com/photo-1503756234508-e32369269deb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1335&q=80'
+const bgUnsp4 = 'https://images.unsplash.com/photo-1501696461415-6bd6660c6742?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2574&q=80'
 const useStyles = makeStyles((theme) => ({
     root: {
         backgroundColor: 'transparent',
@@ -57,7 +60,7 @@ const BackgroundImg = ({isLoaded, onLoad}) => {
             <img 
                 className={classes.backgroundImg}
                 alt= "background"
-                src={background}
+                src={bgUnsp4}
                 onLoad={() => onLoad()}
             />
         </Fade>

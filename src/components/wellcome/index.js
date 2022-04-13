@@ -21,8 +21,10 @@ import {
     Fade,
     Slide,
     Box,
-    Container
+    Container,
+    Avatar
 } from '@material-ui/core';
+import HeartIcon from '@material-ui/icons/Favorite';
 
 import red from '@material-ui/core/colors/red';
 import blue from '@material-ui/core/colors/blue';
@@ -45,6 +47,7 @@ const FreeLogin = lazy(() => import('./FreeLogin'));
 const SignUp = lazy(() => import('./Register'));
 const FollowMe = lazy(() => import('./FollowMe'));
 const TakePhoto = lazy(() => import('./TakePhoto'));
+const ThankYou = lazy(() => import('./ThankYou'));
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -162,7 +165,7 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: 600,
     },
     accentColor: {
-        color: '#ef5350'
+        color: '#b90164'
     }
     
 }));
@@ -228,8 +231,22 @@ switch (userName) {
 
     return  (
         <Box flexDirection='column' mb='2em'>
-            <img src={foto} className={classes.user}/>
-            <span className={classes.userTitle}>{description}</span>
+            <Avatar alt="Remy Sharp" src={foto}  style={{ width: 140, height: 140, margin: 'auto' }}/>
+            <Typography
+                mb={0}
+                variant="subtitle2"
+                color="primary"
+                align="center"
+                style={{
+                    fontWeight: 600,
+                    fontSize: '1.2em',
+                    whiteSpace: 'nowrap',
+                    padding: '.2em 3em',
+                   // background: 'linear-gradient(90deg, rgba(2,0,36,0) 0%, rgba(255,255,255,.8) 20%, rgba(255,255,255,.8) 80%, rgba(0,212,255,0) 100%)',
+                }}
+            >
+                {description}
+            </Typography>
         </Box>
     );
 };
@@ -279,61 +296,88 @@ const Panel = ({content, updatePanelContent}) => {
       }
 
     return  (
-        <Grid container justify="center" alignItems="center" className={classes.root} margin='auto' direction='column'>
+        <>
             {step === 1 && (
-                <>
-                    <Grid item xs={6} justifyContent="center">
+                <Grid container justify="center" alignItems="center" className={classes.root} margin='auto' direction='column'>
+                    <Grid item xs={12} justifyContent="center">
                         <Slide direction="down" in={iniciar && step === 1}  out={step !== 1} container={containerRef.current}>
                             <Box justifyContent="center">
-                                <h1 className={classes.accentColor} style={{whiteSpace: 'noWrap'}}>Nos re-casamos</h1>
+                                <Typography
+                                    variant="h2"
+                                    color="primary"
+                                    align="center"
+                                    style={{
+                                        whiteSpace: 'nowrap',
+                                        margin: '0 auto 1em auto',
+                                    }}
+
+                                >
+                                    ¿Quien eres?
+                                </Typography>
                             </Box>
                         </Slide>
                     </Grid>
-                    <Grid item xs={6} justifyContent="center">
+                    <Grid item xs={12} justifyContent="center">
                         <Slide direction="right" in={iniciar && step === 1}  out={step !== 1} container={containerRef.current}>
                             <Box justifyContent="center"  onClick={() => nextStep(3)}>
                                 <User userName='jose'/>
                             </Box>
                         </Slide>
                     </Grid>
-                    <Grid item xs={6} justifyContent="center" >
+                    <Grid item xs={12} justifyContent="center" >
                         <Slide direction="left" in={iniciar && step === 1}  out={step !== 1} container={containerRef.current}>
                             <Box justifyContent="center"  onClick={() => nextStep(3)}>
                                 <User userName='carla' />
                             </Box>
                         </Slide>
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={12}>
                         <Slide direction="up" in={iniciar && step === 1} out={step !== 1} container={containerRef.current}>
                             <Box justifyContent="center"  onClick={() => nextStep(3)}>
                                 <User userName={extrauser} />
                             </Box>
                         </Slide>
                     </Grid>
-                </>
+                </Grid>
             )}
-
             {step === 2 && (
-                <Grid item xs={10}>
-                    <Slide direction="up" in={iniciar && step === 2}  out={step !== 2} container={containerRef.current}>
-                        <Card className={classes.card} elevation={15} >
-                            <CardContent className={classes.content}>
-                                <FollowMe goBack={() => goBack()} next={() => nextStep()}/>
-                            </CardContent>
-                        </Card>
-                    </Slide>
+                <Grid container justify="center" alignItems="center" className={classes.root} margin='auto' direction='column'>
+                    <Grid item xs={10} style={{width: '100vw', height: '100vh', overflow: 'scroll'}}>
+                        <Slide direction="up" in={iniciar && step === 2}  out={step !== 2} container={containerRef.current}>
+                            <Card className={classes.card} elevation={15} >
+                                <CardContent className={classes.content}>
+                                    <FollowMe goBack={() => goBack()} next={() => nextStep()}/>
+                                </CardContent>
+                            </Card>
+                        </Slide>
+                    </Grid>
                 </Grid>
             )}
             {step === 3 && (
-                <Grid item xs={10} style={{width: '100%'} }>
-                    <Slide direction="up" in={iniciar && step === 3}  out={step !== 3} container={containerRef.current}>
-                        <Box>
-                            <FileInupt/>
-                        </Box>
-                    </Slide>
+                <Grid container justify="flex-start" alignItems="center" className={classes.root} margin='2em auto' direction='column'>
+                    <Grid item xs={10} style={{width: '100vw', maxHeight: '80vh', minHeight: '80vh', overflow: 'hidden', overflowY: 'scroll'}}>
+                        <Slide direction="up" in={iniciar && step === 3}  out={step !== 3} container={containerRef.current}>
+                            <Box>
+                                <FileInupt next={() => nextStep(4)}/>
+                            </Box>
+                        </Slide>
+                    </Grid>
                 </Grid>
             )}
-        </Grid>
+            {step === 4 && (
+                <Grid container justify="center" alignItems="center" className={classes.root} margin='auto' direction='column'>
+                    <Grid item xs={10}>
+                        <Slide direction="up" in={iniciar && step === 4}  out={step !== 4} container={containerRef.current}>
+                            <Card className={classes.card} elevation={15} >
+                                <CardContent className={classes.content}>
+                                    <ThankYou goBack={() => goBack()} />
+                                </CardContent>
+                            </Card>
+                        </Slide>
+                    </Grid>
+                </Grid>
+            )}
+        </>
     )
 };
 
@@ -344,6 +388,18 @@ const WellcomePanel = ({panelContent, show}) => {
         <Fade in={show}>
             <Overlay>
                 <Panel updatePanelContent={handlePanelContent} content={content}/>
+                <Typography
+                      mb={0}
+                      variant="subtitle2"
+                        style={{
+                            color:'#fff',
+                            lineHeight:'3em',
+                            opacity: '.8'
+                        }}
+                     align="center"
+                    >
+                        Made with <HeartIcon style={{color:'#b90164', fontSize: '1.3em'}} /> by <b>ROAM</b>
+                    </Typography>
             </Overlay>
         </Fade>
     );
